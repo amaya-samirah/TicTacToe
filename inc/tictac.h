@@ -5,23 +5,34 @@
 #define TICTACTOE_INC_TICTAC_H_
 
 #include <iostream>
+#include <string>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 
+// The game board
+// 0 = Empty, 1 = Player 1, 2 = Player 2
 struct Board {
     int board[3][3];
+    char player1;
+    char player2;
 };
 
 // Draws the board
-void Draw();
+void Draw(Board gameBoard);
 
-// Resets the game and board
-void Reset(Board &board);
+// Checks to see if a board space is occupied by a player
+// Returns if a player was in the spot
+bool CheckBoardForPlayer(Board gameBoard, int row, int col);
+
+// Resets the players and creates a new board
+// Returns the newly created board
+Board Reset(char player1, char player2);
 
 // Start the game loop
-void StartGame();
+void StartGame(Board &gameBoard);
 
 // Updates the board after player turns
 // Returns a bool if the game is over
