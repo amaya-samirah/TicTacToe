@@ -31,6 +31,18 @@ bool CheckBoardForPlayer(Board gameBoard, int row, int col);
 // Returns if the spot is occupied
 bool IsSpotOccupied(Board gameBoard, int spot);
 
+// Checks a row to see if all spots are filled by 1 player
+// Returns 0 if no player wins, or the player number that won
+int CheckRow(Board gameBoard, int row);
+
+// Checks a column to see if all spots are filled by 1 player
+// Returns 0 if no player wins, or the player number that won
+int CheckCol(Board gameBoard, int col);
+
+// Checks the diagonal to see if all spots are filled by 1 player
+// Returns 0 if no player wins, or the player number that won
+int CheckDiag(Board gameBoard);
+
 // Resets the players and creates a new board
 // Returns the newly created board
 Board Reset(char player1, char player2);

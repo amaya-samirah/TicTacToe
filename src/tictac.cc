@@ -142,10 +142,14 @@ void StartGame(Board &gameBoard) {
 
     while (!gameOver) {
         // Player 1's turn
-        gameOver = StartTurn(gameBoard, 1);
-
+        if (StartTurn(gameBoard, 1)) {
+            break;
+        }
+        
         // Player 2's turn
-        gameOver = StartTurn(gameBoard, 2);
+        if (StartTurn(gameBoard, 2)) {
+            break;
+        }
     }
 }
 
@@ -205,7 +209,9 @@ bool CheckGameOver(Board gameBoard) {
     // Check if a player has won
     int winner = CheckWin(gameBoard);
     if (winner != 0) {
+        cout << "---------------------" << endl;
         cout << "Player " << winner << " wins!" << endl;
+        cout << "---------------------" << endl;
         return true;
     }
 
@@ -220,6 +226,9 @@ bool CheckGameOver(Board gameBoard) {
     }
 
     if (emptySpots == 0) {
+        cout << "---------------------" << endl;
+        cout << "Draw!!" << endl;
+        cout << "---------------------" << endl;
         return true;
     }
 
@@ -228,16 +237,128 @@ bool CheckGameOver(Board gameBoard) {
 
 int CheckWin(Board gameBoard) {
     int winner = 0;
+    cout << "Checking win..." << endl;
+    // Check same diagonal
+    winner = CheckDiag(gameBoard);
+    if (winner > 0) {
+        return winner;
+    }
 
-    // If a player has 3 in a row...they win
-    int player1Counts = 0;
-    int player2Counts = 0;
-    for (int i = 0; i < 3; i++) {
-        // Only have to check it's neighbors
-        for (int j = 0; j < 3; j++) {
-            
+    // Check neighbors
+    for (int row = 0; row < 3; row++) {
+        // Check same row
+        if (gameBoard.board[row][0] != 0) {
+           winner = CheckRow(gameBoard, row);
+           if (winner > 0) {
+                break;
+           }
+        }
+        
+        for (int col = 0; col < 3; col++) {
+            if (gameBoard.board[row][col] != 0) {
+                // Check same column
+                winner = CheckCol(gameBoard, col);
+                if (winner > 0) {
+                    break;
+                }
+            }
         }
     }
 
     return winner;
+}
+
+int CheckDiag(Board gameBoard) {
+
+    // Right diagonal
+    if (gameBoard.board[0][0] != 0 
+        && gameBoard.board[0][0] == gameBoard.board[1][1] 
+        && gameBoard.board[1][1] == gameBoard.board[2][2]) {
+            cout << "Checking diagonal..." << endl;
+
+            switch (gameBoard.board[0][0])
+            {
+            case 1:
+                return 1;
+                break;
+            case 2:
+                return 2;
+                break;
+            default:
+                break;
+            } 
+    }
+
+    // Left diagonal
+    if (gameBoard.board[0][2] != 0 
+        && gameBoard.board[0][2] == gameBoard.board[1][1] 
+        && gameBoard.board[1][1] == gameBoard.board[2][0]) {
+            cout << "Checking diagonal..." << endl;
+            switch (gameBoard.board[0][2])
+            {
+            case 1:
+                return 1;
+                break;
+            case 2:
+                return 2;;
+                break;
+            default:
+                break;
+            } 
+    }
+
+    return 0;
+}
+
+int CheckCol(Board gameBoard, int col) {
+    int player1 = 0, player2 = 0;
+
+    // Check all rows for col's index
+    for (int i = 0; i < 3; i++) {
+        switch (gameBoard.board[i][col])
+        {
+        case 1:
+            player1++;
+            break;
+        case 2:
+            player2++;
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (player1 == 3) {
+        return 1;
+    } else if (player2 == 3) {
+        return 2;
+    } else {
+        return 0;
+    }
+}
+
+int CheckRow(Board gameBoard, int row) {
+    int player1 = 0, player2 = 0;
+
+    for (int j = 0; j < 3; j++) {
+        switch (gameBoard.board[row][j])
+        {
+        case 1:
+            player1++;
+            break;
+        case 2:
+            player2++;
+            break;
+        default:
+            break;
+        }
+    }
+
+    if (player1 == 3) {
+        return 1;
+    } else if (player2 == 3) {
+        return 2;
+    } else {
+        return 0;
+    }
 }
