@@ -23,9 +23,13 @@ struct Board {
 // Draws the board
 void Draw(Board gameBoard);
 
-// Checks to see if a board space is occupied by a player
+// Checks if board space occupied by player then draws the player in that spot
 // Returns if a player was in the spot
 bool CheckBoardForPlayer(Board gameBoard, int row, int col);
+
+// Checks a specific spot to see if occupied
+// Returns if the spot is occupied
+bool IsSpotOccupied(Board gameBoard, int spot);
 
 // Resets the players and creates a new board
 // Returns the newly created board
@@ -34,12 +38,19 @@ Board Reset(char player1, char player2);
 // Start the game loop
 void StartGame(Board &gameBoard);
 
+// Starts the player's turn
+// Returns if the game is over
+bool StartTurn(Board &gameBoard, int player);
+
 // Updates the board after player turns
 // Returns a bool if the game is over
-bool UpdateBoard(Board &currBoard);
+bool UpdateBoard(Board &gameBoard, int player, int spot);
+
+// Checks to see if there are no spaces open or if a player has one
+bool CheckGameOver(Board gameBoard);
 
 // Checks if a player has won
 // Returns the player's number if they have won, else returns a 0
-int CheckWin(Board &currBoard);
+int CheckWin(Board gameBoard);
 
 #endif  // TICTACTOE_INC_TICTAC_H_
