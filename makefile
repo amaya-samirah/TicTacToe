@@ -10,14 +10,14 @@ link = $(cc) $(flags) -o
 compile = $(cc) $(flags) -c -o
 
 
-bin/tictac.o : src/tictac.cc inc/tictac.h
+tictac.o : src/tictac.cc inc/tictac.h
 	$(compile) $@ $<
 
-tictac : bin/tictac.o
+tictac : tictac.o
 	$(link) $@ $<
 
 tictactoe : tictac
 	./tictac
 
 clean:
-	$(RM) bin/*.o tictac tictac.o
+	$(RM) tictac tictac.o
